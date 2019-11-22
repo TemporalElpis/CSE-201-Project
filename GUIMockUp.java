@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.TextField;
@@ -5,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class GUIMockUp extends JPanel{
 	
@@ -23,7 +25,7 @@ public class GUIMockUp extends JPanel{
 		// log in button
 		JButton logInButtom = new JButton("Log In");
 		frame.add(logInButtom);
-		logInButtom.setBounds(900, 20, 100, 30);
+		logInButtom.setBounds(frame.getWidth()-130, 20, 100, 30);
 		logInButtom.addActionListener(new ActionListener() {
 			
 			@Override
@@ -35,7 +37,7 @@ public class GUIMockUp extends JPanel{
 		// sign up button
 		JButton signUpButtom = new JButton("Sign Up");
 		frame.add(signUpButtom);
-		signUpButtom.setBounds(790, 20, 100, 30);
+		signUpButtom.setBounds(frame.getWidth()-240, 20, 100, 30);
 		signUpButtom.addActionListener(new ActionListener() {
 			
 			@Override
@@ -45,15 +47,14 @@ public class GUIMockUp extends JPanel{
 		});
 		
 		
-		
 		Font font = new Font("Arial", Font.PLAIN, 36);
 		// create a search box
 		JTextField searchInput = new JTextField();
 		JButton searchButtom = new JButton("Search");
 		frame.add(searchInput);
 		frame.add(searchButtom);
-		searchInput.setBounds(200, 80, 550, 30);
-		searchButtom.setBounds(750, 80, 100, 30);
+		searchInput.setBounds(frame.getWidth()/5, frame.getHeight()/9, frame.getWidth()/100*55, 30);
+		searchButtom.setBounds(searchInput.getX() + searchInput.getWidth() + 10, searchInput.getY(), 100, 30);
 		searchButtom.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -65,14 +66,7 @@ public class GUIMockUp extends JPanel{
 				result.setBounds(200, 100, 700, 600);
 			}
 		});
-		
-		// create a list
-//		JLabel list = new JLabel("List");
-//		list.setHorizontalAlignment(JLabel.CENTER);
-//		list.setFont(font);
-//		frame.add(list);
-//		list.setBounds(200, 100, 700, 600);
-		
+	
 		// create a filter box
 		JButton filter = new JButton("filter");
 		frame.add(filter);
@@ -89,14 +83,70 @@ public class GUIMockUp extends JPanel{
 			}
 		});
 		
-		
-//		
-//		
-//		JLabel filter = new JLabel("Filter");
-//		filter.setHorizontalAlignment(JLabel.CENTER);
-//		filter.setFont(font);
-//		frame.add(filter);
-		
+
+		//TABLE 
+		JTable table = new JTable();
+		table.setVisible(true);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},					
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},					
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+			},
+			new String[] {
+				"Name", "Genre", "Developer", "Interface", "Price", "Rating"
+			}
+		));
+		JScrollPane scrollPane = new JScrollPane(table);
+		table.setBounds(frame.getX()-250, frame.getY()+20, frame.getWidth()+120, frame.getHeight()-40);
+		frame.add(table);
 	}
 	
 	
