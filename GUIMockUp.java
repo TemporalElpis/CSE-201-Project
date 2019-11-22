@@ -28,7 +28,7 @@ public class GUIMockUp extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("the detail of login");
+				Login();
 			}
 		});
 		
@@ -40,7 +40,7 @@ public class GUIMockUp extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("the detail of sign up");
+				creatAccount();
 			}
 		});
 		
@@ -97,5 +97,64 @@ public class GUIMockUp extends JPanel{
 //		filter.setFont(font);
 //		frame.add(filter);
 		
+	}
+	
+	
+	
+	public static boolean creatAccount() {
+		JFrame loginFrame = new JFrame("Creat Your Personal Account~"); 
+		loginFrame.setVisible(true);
+		loginFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		loginFrame.setAlwaysOnTop(true);
+		loginFrame.setSize(512 , 200);
+		loginFrame.setLocationRelativeTo(null);
+		loginFrame.setLayout(null);
+		
+		//type name
+		JLabel typeAccountName = new JLabel("User name: ");
+		loginFrame.add(typeAccountName);
+		typeAccountName.setBounds(100, 20, 100, 50);
+		
+		JTextField textUseName = new JTextField();
+		textUseName.setBounds(200, 33, 220, 25);
+		loginFrame.add(textUseName);
+		
+		//type password
+		JLabel typepassword = new JLabel("Password: ");
+		loginFrame.add(typepassword);
+		typepassword.setBounds(100, 50, 100, 50);
+		
+		JTextField textPassword = new JTextField();
+		textPassword.setBounds(200, 63, 220, 25);
+		loginFrame.add(textPassword);
+		
+		//type password again
+		JLabel typepasswordAgain = new JLabel("Type Password Again: ");
+		loginFrame.add(typepasswordAgain);
+		typepasswordAgain.setBounds(50, 80, 150, 50);
+
+		JTextField textPasswordAgain = new JTextField();
+		textPasswordAgain.setBounds(200, 93, 220, 25);
+		loginFrame.add(textPasswordAgain);
+		return false;
+	}
+	
+	public static boolean Login() {
+		JFrame loginFrame = new JFrame("Creat Your Personal Account~"); 
+		loginFrame.setVisible(true);
+		loginFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		loginFrame.setAlwaysOnTop(true);
+		loginFrame.setSize(512 , 200);
+		loginFrame.setLocationRelativeTo(null);
+		loginFrame.setLayout(null);
+		
+		JLabel typeAccountName = new JLabel("User name: ");
+		loginFrame.add(typeAccountName);
+		typeAccountName.setBounds(100, 20, 100, 50);
+		
+		JLabel typepassword = new JLabel("Password: ");
+		loginFrame.add(typepassword);
+		typepassword.setBounds(100, 80, 100, 50);
+		return false;
 	}
 }
