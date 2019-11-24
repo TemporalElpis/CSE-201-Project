@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
@@ -330,7 +331,7 @@ public class GUIMockUp extends JPanel{
 				PrintWriter pw = null;
 				//write account in file
 				try {
-					pw = new PrintWriter("Account.txt");
+					pw = new PrintWriter(new FileWriter("Account.txt",true));
 					pw.println(acc.toString());
 					pw.close();
 					return true;
