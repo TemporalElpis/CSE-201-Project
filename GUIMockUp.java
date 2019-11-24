@@ -207,7 +207,8 @@ public class GUIMockUp extends JPanel{
 				
 				//password is same && account does not exist
 				if(password1.equals(password2) && !exist) {
-					boolean status = creatAccount(userName,password1);
+					Account acc = new Account(userName,password1);
+					boolean status = creatAccount(acc);
 					if(status) {
 						//print successful page
 						JFrame successFrame = new JFrame("Account Created"); 
@@ -235,6 +236,9 @@ public class GUIMockUp extends JPanel{
 							successFrame.dispose();
 							}
 						});
+					}
+					else {
+						System.out.println("error in CreatAccount");
 					}
 					
 					loginFrame.dispose();
@@ -306,7 +310,9 @@ public class GUIMockUp extends JPanel{
 					scn = new Scanner(new File("Account.txt"));
 					while(scn.hasNextLine()) {
 						line = scn.nextLine();
-						String userNameInFile = line.substring(0,line.charAt(' '));
+						String [] parts= new String [2];
+						parts = line.split(", ");
+						String userNameInFile = parts[0];
 						if(userNameInFile.equals(userName)) {
 							return true;
 						}
@@ -320,12 +326,12 @@ public class GUIMockUp extends JPanel{
 			}
 
 			//creatAccount
-			private boolean creatAccount(String userName, String password1) {
+			private boolean creatAccount(Account acc) {
 				PrintWriter pw = null;
 				//write account in file
 				try {
 					pw = new PrintWriter("Account.txt");
-					pw.println(userName + " " + password1 + "\n");
+					pw.println(acc.toString());
 					pw.close();
 					return true;
 				}
@@ -352,7 +358,7 @@ public class GUIMockUp extends JPanel{
 	}
 	
 	public static boolean Login() {
-		JFrame loginFrame = new JFrame("Creat Your Personal Account~"); 
+		JFrame loginFrame = new JFrame("Login~"); 
 		loginFrame.setVisible(true);
 		loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		loginFrame.setAlwaysOnTop(true);
@@ -363,20 +369,116 @@ public class GUIMockUp extends JPanel{
 		//type username
 		JLabel typeAccountName = new JLabel("User name: ");
 		loginFrame.add(typeAccountName);
-		typeAccountName.setBounds(100, 20, 100, 50);
+		typeAccountName.setBounds(100, 0, 100, 50);
 		
 		JTextField textUseName = new JTextField();
-		textUseName.setBounds(200, 33, 220, 25);
+		textUseName.setBounds(200, 13, 220, 25);
 		loginFrame.add(textUseName);
 		
 		//type password
 		JLabel typepassword = new JLabel("Password: ");
 		loginFrame.add(typepassword);
-		typepassword.setBounds(100, 65, 100, 50);
+		typepassword.setBounds(100, 45, 100, 50);
 		
 		JTextField textPassword = new JTextField();
-		textPassword.setBounds(200, 80, 220, 25);
+		textPassword.setBounds(200, 60, 220, 25);
 		loginFrame.add(textPassword);
-		return false;
+		
+		//click login
+		JButton loginbuttom = new JButton("GO!");
+		loginFrame.add(loginbuttom);
+		loginbuttom.setBounds(210, 100, 100, 30);
+		loginbuttom.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String userName = textUseName.getText();
+				String password1 = textPassword.getText();
+				Account accType = new Account(userName,password1);
+				boolean match = checkMatch(accType);
+				//all match
+				if(match) {
+					//print successful page
+					JFrame successFrame = new JFrame("Login Successful"); 
+					successFrame.setVisible(true);
+					successFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+					successFrame.setAlwaysOnTop(true);
+					successFrame.setSize(512 , 200);
+					successFrame.setLocationRelativeTo(null);
+					successFrame.setLayout(null);
+				
+					//success message Label
+					JLabel successtext = new JLabel("You has been SUCCESSFULLY login!");
+					successFrame.add(successtext);
+					successtext.setBounds(120, 10, 300, 50);
+					//done button
+					JButton Welcome = new JButton("Welcome!");
+					successFrame.add(Welcome);
+					Welcome.setBounds(200, 110, 100, 30);
+					Welcome.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							successFrame.dispose();
+							loginFrame.dispose();
+							//there should be something about user name...show on top corner
+							//but I didn't finish
+						}
+					});
+				}
+				
+				//fail
+				else {
+					//print fail page
+					JFrame successFrame = new JFrame("Login failed"); 
+					successFrame.setVisible(true);
+					successFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+					successFrame.setAlwaysOnTop(true);
+					successFrame.setSize(512 , 200);
+					successFrame.setLocationRelativeTo(null);
+					successFrame.setLayout(null);
+				
+					//success message Label
+					JLabel successtext = new JLabel("Your account does not exist or your password does not match!");
+					successFrame.add(successtext);
+					successtext.setBounds(80, 20, 400, 50);
+					//done button
+					JButton Welcome = new JButton("try again~");
+					successFrame.add(Welcome);
+					Welcome.setBounds(200, 110, 100, 30);
+					Welcome.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							successFrame.dispose();
+						}
+					});
+				}
+				
+
+				
+			}
+
+			private boolean checkMatch(Account acc) {
+				Scanner scn = null;
+				String line;
+				try {
+					scn = new Scanner(new File("Account.txt"));
+					while(scn.hasNextLine()) {
+						line = scn.nextLine();
+						String [] parts= new String [2];
+						parts = line.split(", ");
+						Account accInFile = new Account(parts[0], parts[1]);
+						if(acc.equals(accInFile)) {
+							scn.close();
+							return true;
+						}
+					}
+				}
+				catch(Exception ex){
+					System.out.println(ex.getMessage());
+				}
+				scn.close();
+				return false;
+			}
+		});
+		return true;
 	}
 }

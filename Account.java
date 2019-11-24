@@ -18,4 +18,17 @@ public class Account {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	//check two accounts equals 
+	public boolean equals(Account account) {
+		if(this.getName().equals(account.getName())&&this.getPassword().equals(account.getPassword())) {
+			return true;
+		}
+		return false;
+	}
+	
+	//toString
+	public String toString() {
+		return name + ", " + password;
+	}
 }
