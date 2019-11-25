@@ -1,36 +1,61 @@
-import java.awt.BorderLayout;
+
 import java.awt.Font;
-import java.awt.Frame;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.RandomAccessFile;
 import java.util.Scanner;  
 
 public class GUIMockUp extends JPanel{
 	
 	// =============================================== Properties
+	private JFrame frame;
+	private JButton signUpButtom;
+	private JButton logInButtom;
+	private JButton logOutButtom;
+	private JTable table;
 	
-	public static void main(String[] args) {	
+	public GUIMockUp() {
+		frame = new JFrame();
+		signUpButtom = new JButton();
+		logInButtom = new JButton();
+		logOutButtom = new JButton();
+		table = new JTable();
+		init();
+	}
+	
+	public static void main(String[] args) {
+		GUIMockUp cataLog = new GUIMockUp();
+		cataLog.frame.setVisible(true);
+	}
+	
+	private void init() {
+		
 		// create a new frame
-		JFrame frame = new JFrame("AlphaSoft"); 
-		frame.setVisible(true);
+		frame.setTitle("Game Catalog");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setAlwaysOnTop(true);
 		frame.setSize(1024, 768);
 		frame.setLocationRelativeTo(null);
 		frame.setLayout(null);
 		
+		// sign up button
+		signUpButtom.setText("Sign Up");
+		frame.add(signUpButtom);
+		signUpButtom.setBounds(frame.getWidth()-240, 20, 100, 30);
+		signUpButtom.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				creatAccount();
+			}
+		});
+
 		// log in button
-		JButton logInButtom = new JButton("Log In");
+		logInButtom.setText("Log In");
 		frame.add(logInButtom);
 		logInButtom.setBounds(frame.getWidth()-130, 20, 100, 30);
 		logInButtom.addActionListener(new ActionListener() {
@@ -41,15 +66,18 @@ public class GUIMockUp extends JPanel{
 			}
 		});
 		
-		// sign up button
-		JButton signUpButtom = new JButton("Sign Up");
-		frame.add(signUpButtom);
-		signUpButtom.setBounds(frame.getWidth()-240, 20, 100, 30);
-		signUpButtom.addActionListener(new ActionListener() {
+		// log out button
+		logOutButtom.setText("Log Out");
+		logOutButtom.setVisible(false);
+		frame.add(logOutButtom);
+		logOutButtom.setBounds(frame.getWidth()-130, 20, 100, 30);
+		logOutButtom.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				creatAccount();
+				signUpButtom.setVisible(true);
+				logInButtom.setVisible(true);
+				logOutButtom.setVisible(false);
 			}
 		});
 		
@@ -60,7 +88,8 @@ public class GUIMockUp extends JPanel{
 		JButton searchButtom = new JButton("Search");
 		frame.add(searchInput);
 		frame.add(searchButtom);
-		searchInput.setBounds(frame.getWidth()/5, frame.getHeight()/9, frame.getWidth()/100*55, 30);
+		searchInput.setLocation(230, frame.getHeight()/9);
+		searchInput.setSize(searchInput.getX()+ 350, 30);
 		searchButtom.setBounds(searchInput.getX() + searchInput.getWidth() + 10, searchInput.getY(), 100, 30);
 		searchButtom.addActionListener(new ActionListener() {
 			@Override
@@ -74,26 +103,47 @@ public class GUIMockUp extends JPanel{
 			}
 		});
 	
-		// create a filter box
-		JButton filter = new JButton("filter");
-		frame.add(filter);
-		filter.setBounds(10, 100, 180, 360);
-		filter.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String s = "filter result";
-				JLabel result = new JLabel(s);
-				result.setHorizontalAlignment(JLabel.CENTER);
-				result.setFont(font);
-				frame.add(result);
-				result.setBounds(200, 100, 700, 600);
-			}
-		});
+		// create a filter panel
+		JPanel filterPane = new JPanel();
+		filterPane.setLayout(null);
+		JLabel filter = new JLabel("Filter:");
+		filter.setBounds(10, 0, 100, 50);
+		filter.setFont(new Font("Arial", 1, 25));
+		filterPane.add(filter);
 		
+		JLabel byPlatform = new JLabel("Platform: ");
+		byPlatform.setBounds(filter.getX()+20, filter.getY()+80, 100, 30);
+		byPlatform.setFont(new Font("Arial", 1, 15));
+		filterPane.add(byPlatform);
+		
+		JRadioButton nintendo3ds = new JRadioButton("Nintendo 3DS");
+		nintendo3ds.setBounds(byPlatform.getX()+10, byPlatform.getY()+40, 120, 30);
+		filterPane.add(nintendo3ds);
+		
+		JRadioButton nintendoSwitch = new JRadioButton("Nintendo Switch");
+		nintendoSwitch.setBounds(nintendo3ds.getX(), nintendo3ds.getY()+30, 120, 30);
+		filterPane.add(nintendoSwitch);
+		
+		JRadioButton playS3 = new JRadioButton("PlayStation 3");
+		playS3.setBounds(nintendo3ds.getX(), nintendoSwitch.getY()+30, 120, 30);
+		filterPane.add(playS3);
+		
+		JRadioButton playS4 = new JRadioButton("PlayStation 4");
+		playS4.setBounds(nintendo3ds.getX(), playS3.getY()+30, 120, 30);
+		filterPane.add(playS4);
+		
+		JRadioButton xBox = new JRadioButton("XBOX");
+		xBox.setBounds(nintendo3ds.getX(), playS4.getY()+30, 120, 30);
+		filterPane.add(xBox);
+		
+		
+		filterPane.setBounds(20, searchInput.getY(), searchInput.getX()-40, 550);
+		filterPane.setBorder(BorderFactory.createEtchedBorder());
+		frame.add(filterPane);
 
-		//TABLE 
-		JTable table = new JTable();
+		//TABLE
 		table.setVisible(true);
+		table.setEnabled(false);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null, null, null},
@@ -151,14 +201,24 @@ public class GUIMockUp extends JPanel{
 				"Name", "Genre", "Developer", "Interface", "Price", "Rating"
 			}
 		));
+		
+		DefaultTableCellRenderer r=new DefaultTableCellRenderer();
+        r.setHorizontalAlignment(JLabel.CENTER);
+        table.setDefaultRenderer(Object.class,r);
+		
 		JScrollPane scrollPane = new JScrollPane(table);
-		table.setBounds(frame.getX()-250, frame.getY()+20, frame.getWidth()+120, frame.getHeight()-40);
-		frame.add(table);
+		scrollPane.setBounds(searchInput.getX(), searchInput.getY()+50, 
+				searchButtom.getWidth()-searchInput.getX()+searchButtom.getX(), 500);
+		frame.add(scrollPane);
+		
+		 
+		frame.setVisible(true);
+	
 	}
 	
 	
 	
-	public static boolean creatAccount() {
+	private boolean creatAccount() {
 		JFrame loginFrame = new JFrame("Creat Your Personal Account~"); 
 		loginFrame.setVisible(true);
 		loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -181,7 +241,7 @@ public class GUIMockUp extends JPanel{
 		loginFrame.add(typepassword);
 		typepassword.setBounds(100, 30, 100, 50);
 		
-		JTextField textPassword = new JTextField();
+		JPasswordField textPassword = new JPasswordField();
 		textPassword.setBounds(200, 43, 220, 25);
 		loginFrame.add(textPassword);
 		
@@ -190,7 +250,7 @@ public class GUIMockUp extends JPanel{
 		loginFrame.add(typepasswordAgain);
 		typepasswordAgain.setBounds(50, 60, 150, 50);
 
-		JTextField textPasswordAgain = new JTextField();
+		JPasswordField textPasswordAgain = new JPasswordField();
 		textPasswordAgain.setBounds(200, 73, 220, 25);
 		loginFrame.add(textPasswordAgain);
 		
@@ -202,8 +262,12 @@ public class GUIMockUp extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String userName = textUseName.getText();
-				String password1 = textPassword.getText();
-				String password2 = textPasswordAgain.getText();
+				String password1 = "";
+				for(char i : textPassword.getPassword())
+					password1 += i;
+				String password2 = "";
+				for(char i : textPasswordAgain.getPassword())
+					password2 += i;
 				boolean exist = checkExist(userName);
 				
 				//password is same && account does not exist
@@ -306,6 +370,7 @@ public class GUIMockUp extends JPanel{
 
 			private boolean checkExist(String userName) {
 				Scanner scn = null;
+				boolean result = false;
 				String line;
 				try {
 					scn = new Scanner(new File("Account.txt"));
@@ -315,15 +380,15 @@ public class GUIMockUp extends JPanel{
 						parts = line.split(", ");
 						String userNameInFile = parts[0];
 						if(userNameInFile.equals(userName)) {
-							return true;
+							result = true;
 						}
 					}
 				}
 				catch(Exception ex){
-					System.out.println(ex.getMessage());
+					result = false;
 				}
 				scn.close();
-				return false;
+				return result;
 			}
 
 			//creatAccount
@@ -358,7 +423,7 @@ public class GUIMockUp extends JPanel{
 		return true;
 	}
 	
-	public static boolean Login() {
+	private boolean Login() {
 		JFrame loginFrame = new JFrame("Login~"); 
 		loginFrame.setVisible(true);
 		loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -381,7 +446,7 @@ public class GUIMockUp extends JPanel{
 		loginFrame.add(typepassword);
 		typepassword.setBounds(100, 45, 100, 50);
 		
-		JTextField textPassword = new JTextField();
+		JPasswordField textPassword = new JPasswordField();
 		textPassword.setBounds(200, 60, 220, 25);
 		loginFrame.add(textPassword);
 		
@@ -393,7 +458,9 @@ public class GUIMockUp extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String userName = textUseName.getText();
-				String password1 = textPassword.getText();
+				String password1 = "";
+				for(char i : textPassword.getPassword())
+					password1 += i;
 				Account accType = new Account(userName,password1);
 				boolean match = checkMatch(accType);
 				//all match
@@ -420,8 +487,12 @@ public class GUIMockUp extends JPanel{
 						public void actionPerformed(ActionEvent e) {
 							successFrame.dispose();
 							loginFrame.dispose();
-							//there should be something about user name...show on top corner
-							//but I didn't finish
+							signUpButtom.setVisible(false);
+							logInButtom.setVisible(false);
+							logOutButtom.setVisible(true);
+							JLabel msg = new JLabel("Welcome " + userName + " !");
+							msg.setBounds(signUpButtom.getX(), signUpButtom.getY(), signUpButtom.getWidth(), signUpButtom.getHeight());
+							frame.add(msg);
 						}
 					});
 				}
@@ -481,5 +552,9 @@ public class GUIMockUp extends JPanel{
 			}
 		});
 		return true;
+	}
+
+	private void view() {
+		
 	}
 }
