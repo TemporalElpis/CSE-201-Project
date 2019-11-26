@@ -11,7 +11,7 @@ class GameTest {
 		game.setDeveloper("HAL Labratory");
 		game.setPlatform("Wii");
 		game.setGenre("Platform");
-		game.setPrice(49.99);
+		game.setPrice("49.99");
 		game.setRating("E");
 		
 		assertEquals(game.getName(), "Kirby's Epic Yarn");
