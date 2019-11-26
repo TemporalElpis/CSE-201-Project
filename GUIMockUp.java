@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class GUIMockUp extends JPanel{
 	
 	// =============================================== Properties
-	private static JFrame frame;
+	private JFrame frame;
 	private JButton signUpButtom;
 	private JButton logInButtom;
 	private JButton logOutButtom;
@@ -37,8 +37,8 @@ public class GUIMockUp extends JPanel{
 	}
 	
 	public static void main(String[] args) {
-		new GUIMockUp();
-		frame.setVisible(true);
+		GUIMockUp cataLog = new GUIMockUp();
+		cataLog.frame.setVisible(true);
 	}
 	
 	private void init() {
@@ -103,11 +103,7 @@ public class GUIMockUp extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String s = searchInput.getText();
-				JLabel result = new JLabel("search result of "+s);
-				result.setHorizontalAlignment(JLabel.CENTER);
-				result.setFont(font);
-				frame.add(result);
-				result.setBounds(200, 100, 700, 600);
+				search(s);
 			}
 		});
 	
@@ -124,23 +120,44 @@ public class GUIMockUp extends JPanel{
 		byPlatform.setFont(new Font("Arial", 1, 15));
 		filterPane.add(byPlatform);
 		
+		JRadioButton nintendo3ds = new JRadioButton("Nintendo 3DS");
+		nintendo3ds.setBounds(byPlatform.getX()+10, byPlatform.getY()+40, 120, 30);
+		filterPane.add(nintendo3ds);
+		
 		JRadioButton nintendoSwitch = new JRadioButton("Nintendo Switch");
-		nintendoSwitch.setBounds(byPlatform.getX()+10, byPlatform.getY()+40, 120, 30);
+		nintendoSwitch.setBounds(nintendo3ds.getX(), nintendo3ds.getY()+30, 120, 30);
 		filterPane.add(nintendoSwitch);
 		
+		JRadioButton playS3 = new JRadioButton("PlayStation 3");
+		playS3.setBounds(nintendo3ds.getX(), nintendoSwitch.getY()+30, 120, 30);
+		filterPane.add(playS3);
+		
 		JRadioButton playS4 = new JRadioButton("PlayStation 4");
-		playS4.setBounds(nintendoSwitch.getX(), nintendoSwitch.getY()+30, 120, 30);
+		playS4.setBounds(nintendo3ds.getX(), playS3.getY()+30, 120, 30);
 		filterPane.add(playS4);
 		
-		JRadioButton xbox = new JRadioButton("Xbox One");
-		xbox.setBounds(nintendoSwitch.getX(), playS4.getY()+30, 120, 30);
-		filterPane.add(xbox);
+		JRadioButton xBox = new JRadioButton("XBOX");
+		xBox.setBounds(nintendo3ds.getX(), playS4.getY()+30, 120, 30);
+		filterPane.add(xBox);
+		
 		
 		filterPane.setBounds(20, searchInput.getY(), searchInput.getX()-40, 550);
 		filterPane.setBorder(BorderFactory.createEtchedBorder());
 		frame.add(filterPane);
 
-		//TABLE
+		//set table with an arraylist
+		setTable(games);
+		
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(searchInput.getX(), searchInput.getY()+50, 
+				searchButtom.getWidth()-searchInput.getX()+searchButtom.getX(), 500);
+		frame.add(scrollPane);
+	
+	}
+	
+	
+	
+	private void setTable(ArrayList<Game> games) {
 		table.setVisible(true);
 		table.setEnabled(false);
 		table.setRowHeight(50);
@@ -158,22 +175,43 @@ public class GUIMockUp extends JPanel{
 					"Title", "Genre", "Developer", "Platform", "Price", "Rating"
 				}
 			));
-			
-		DefaultTableCellRenderer r=new DefaultTableCellRenderer();
+		
+		
+		DefaultTableCellRenderer r = new DefaultTableCellRenderer();
 	    r.setHorizontalAlignment(JLabel.CENTER);
 	    table.setDefaultRenderer(Object.class,r);
 	    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	    FitTableColumns(table);
-		
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(searchInput.getX(), searchInput.getY()+50, 
-				searchButtom.getWidth()-searchInput.getX()+searchButtom.getX(), 500);
-		frame.add(scrollPane);
-	
 	}
-	
-	
-	
+
+	protected void search(String s) {
+		//add all Game that meet the requirement in to gameList
+		ArrayList<Game> gameList = new ArrayList<Game>();
+		Scanner scn = null;
+		String line;
+		try {
+			scn = new Scanner(new File("database.txt"));
+			//skip top line
+			line = scn.nextLine();
+			while(scn.hasNextLine()) {
+				line = scn.nextLine();
+				String [] parts= new String [6];
+				parts = line.split("/");
+				Game gameInFile = new Game(parts[0],parts[1],parts[2],parts[3],parts[4],parts[5]);				
+				if(gameInFile.getName().toLowerCase().contains(s.toLowerCase())) {
+					gameList.add(gameInFile);
+				}
+			}
+		}
+		catch(Exception ex){
+			System.out.println("something wrong with search");;
+		}
+		scn.close();
+		
+		//give gameList to table
+		setTable(gameList);
+	}
+
 	private boolean creatAccount() {
 		JFrame loginFrame = new JFrame("Creat Your Personal Account~"); 
 		loginFrame.setVisible(true);
@@ -509,7 +547,7 @@ public class GUIMockUp extends JPanel{
 		});
 		return true;
 	}
-	
+
 	// load games from database
 	private static void load() {
 		Scanner scn = null;
@@ -528,7 +566,7 @@ public class GUIMockUp extends JPanel{
 		}
 		scn.close();
 	}
-
+		
 	// Fit the columns by the longest content
 	public void FitTableColumns(JTable myTable) {
 		JTableHeader header = myTable.getTableHeader();
@@ -539,23 +577,23 @@ public class GUIMockUp extends JPanel{
 			TableColumn column = (TableColumn) columns.nextElement();
 			int col = header.getColumnModel().getColumnIndex(
 					column.getIdentifier());
-			int width = (int) myTable
-					.getTableHeader()
-					.getDefaultRenderer()
-					.getTableCellRendererComponent(myTable,
-							column.getIdentifier(), false, false, -1, col)
-					.getPreferredSize().getWidth();
-			for (int row = 0; row < rowCount; row++)
-			{
-				int preferedWidth = (int) myTable
-						.getCellRenderer(row, col)
-						.getTableCellRendererComponent(myTable,
-								myTable.getValueAt(row, col), false, false,
-								row, col).getPreferredSize().getWidth();
-				width = Math.max(width, preferedWidth);
-			}
+//			int width = (int) myTable
+//					.getTableHeader()
+//					.getDefaultRenderer()
+//					.getTableCellRendererComponent(myTable,
+//							column.getIdentifier(), false, false, -1, col)
+//					.getPreferredSize().getWidth();
+//			for (int row = 0; row < rowCount; row++)
+//			{
+//				int preferedWidth = (int) myTable
+//						.getCellRenderer(row, col)
+//						.getTableCellRendererComponent(myTable,
+//								myTable.getValueAt(row, col), false, false,
+//								row, col).getPreferredSize().getWidth();
+//				width = Math.max(width, preferedWidth);
+//			}
 			header.setResizingColumn(column);
-			column.setWidth(width + myTable.getIntercellSpacing().width + 10);
+			column.setWidth(180 + myTable.getIntercellSpacing().width + 10);
 		}
 	}
 }
