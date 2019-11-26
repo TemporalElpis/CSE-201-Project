@@ -204,8 +204,6 @@ public class GUIMockUp extends JPanel{
 		String line;
 		try {
 			scn = new Scanner(new File("database.txt"));
-			//skip top line
-			line = scn.nextLine();
 			while(scn.hasNextLine()) {
 				line = scn.nextLine();
 				String [] parts= new String [6];
