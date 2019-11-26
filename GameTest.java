@@ -7,6 +7,7 @@ class GameTest {
 	@Test
 	void test() {
 		Game game = new Game();
+		Game game2 = new Game("a","b","c","d","e","f");
 		game.setName("Kirby's Epic Yarn");
 		game.setDeveloper("HAL Labratory");
 		game.setPlatform("Wii");
@@ -22,6 +23,12 @@ class GameTest {
 		
 		assertEquals(game.getRating(), "E");
 		assertFalse(game.getRating().equals("M"));
+		
+		assertEquals(game2.getName(), "a");
+		assertFalse(game2.getName().equals("Fire Emblem: Awakening"));
+		
+		assertEquals(game2.getDeveloper(), "c");
+		assertFalse(game2.getName().equals("Fire Emblem: Awakening"));
 	}
 
 }

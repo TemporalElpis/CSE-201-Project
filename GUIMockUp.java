@@ -23,7 +23,7 @@ public class GUIMockUp extends JPanel{
 	private JButton logInButtom;
 	private JButton logOutButtom;
 	private JTable table;
-	private static ArrayList<Game> games;
+	protected static ArrayList<Game> games;
 	private JButton FAQsButtom;
 	
 	public GUIMockUp() {
@@ -225,7 +225,7 @@ public class GUIMockUp extends JPanel{
 		setTable(gameList);
 	}
 
-	private boolean creatAccount() {
+	protected boolean creatAccount() {
 		JFrame loginFrame = new JFrame("Creat Your Personal Account~"); 
 		loginFrame.setVisible(true);
 		loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -430,7 +430,7 @@ public class GUIMockUp extends JPanel{
 		return true;
 	}
 	
-	private boolean Login() {
+	protected boolean Login() {
 		JFrame loginFrame = new JFrame("Login~"); 
 		loginFrame.setVisible(true);
 		loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -562,7 +562,7 @@ public class GUIMockUp extends JPanel{
 	}
 
 	// load games from database
-	private static void load() {
+	protected static void load() {
 		Scanner scn = null;
 		String line;
 		try {
