@@ -24,6 +24,7 @@ public class GUIMockUp extends JPanel{
 	private JButton logOutButtom;
 	private JTable table;
 	private static ArrayList<Game> games;
+	private JButton FAQsButtom;
 	
 	public GUIMockUp() {
 		frame = new JFrame();
@@ -32,6 +33,7 @@ public class GUIMockUp extends JPanel{
 		logOutButtom = new JButton();
 		table = new JTable();
 		games = new ArrayList<Game>();
+		FAQsButtom = new JButton();
 		load();
 		init();
 	}
@@ -153,6 +155,17 @@ public class GUIMockUp extends JPanel{
 				searchButtom.getWidth()-searchInput.getX()+searchButtom.getX(), 500);
 		frame.add(scrollPane);
 	
+		//FAQs buttom
+		FAQsButtom.setText("FAQs");
+		frame.add(FAQsButtom);
+		FAQsButtom.setBounds(frame.getWidth()-130, frame.getHeight()-100, 100, 30);
+		FAQsButtom.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	
 	
