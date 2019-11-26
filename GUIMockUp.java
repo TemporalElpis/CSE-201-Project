@@ -5,19 +5,25 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Scanner;  
 
 public class GUIMockUp extends JPanel{
 	
 	// =============================================== Properties
-	private JFrame frame;
+	private static JFrame frame;
 	private JButton signUpButtom;
 	private JButton logInButtom;
 	private JButton logOutButtom;
 	private JTable table;
+	private static ArrayList<Game> games;
 	
 	public GUIMockUp() {
 		frame = new JFrame();
@@ -25,12 +31,14 @@ public class GUIMockUp extends JPanel{
 		logInButtom = new JButton();
 		logOutButtom = new JButton();
 		table = new JTable();
+		games = new ArrayList<Game>();
+		load();
 		init();
 	}
 	
 	public static void main(String[] args) {
-		GUIMockUp cataLog = new GUIMockUp();
-		cataLog.frame.setVisible(true);
+		new GUIMockUp();
+		frame.setVisible(true);
 	}
 	
 	private void init() {
@@ -116,26 +124,17 @@ public class GUIMockUp extends JPanel{
 		byPlatform.setFont(new Font("Arial", 1, 15));
 		filterPane.add(byPlatform);
 		
-		JRadioButton nintendo3ds = new JRadioButton("Nintendo 3DS");
-		nintendo3ds.setBounds(byPlatform.getX()+10, byPlatform.getY()+40, 120, 30);
-		filterPane.add(nintendo3ds);
-		
 		JRadioButton nintendoSwitch = new JRadioButton("Nintendo Switch");
-		nintendoSwitch.setBounds(nintendo3ds.getX(), nintendo3ds.getY()+30, 120, 30);
+		nintendoSwitch.setBounds(byPlatform.getX()+10, byPlatform.getY()+40, 120, 30);
 		filterPane.add(nintendoSwitch);
 		
-		JRadioButton playS3 = new JRadioButton("PlayStation 3");
-		playS3.setBounds(nintendo3ds.getX(), nintendoSwitch.getY()+30, 120, 30);
-		filterPane.add(playS3);
-		
 		JRadioButton playS4 = new JRadioButton("PlayStation 4");
-		playS4.setBounds(nintendo3ds.getX(), playS3.getY()+30, 120, 30);
+		playS4.setBounds(nintendoSwitch.getX(), nintendoSwitch.getY()+30, 120, 30);
 		filterPane.add(playS4);
 		
-		JRadioButton xBox = new JRadioButton("XBOX");
-		xBox.setBounds(nintendo3ds.getX(), playS4.getY()+30, 120, 30);
-		filterPane.add(xBox);
-		
+		JRadioButton xbox = new JRadioButton("Xbox One");
+		xbox.setBounds(nintendoSwitch.getX(), playS4.getY()+30, 120, 30);
+		filterPane.add(xbox);
 		
 		filterPane.setBounds(20, searchInput.getY(), searchInput.getX()-40, 550);
 		filterPane.setBorder(BorderFactory.createEtchedBorder());
@@ -144,75 +143,32 @@ public class GUIMockUp extends JPanel{
 		//TABLE
 		table.setVisible(true);
 		table.setEnabled(false);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},					
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},					
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"Name", "Genre", "Developer", "Interface", "Price", "Rating"
-			}
-		));
-		
+		table.setRowHeight(50);
+		String[][] tableContent = new String[games.size()][6];
+		for(int i = 0; i < games.size(); i++) {
+			tableContent[i][0] = games.get(i).getName();
+			tableContent[i][1] = games.get(i).getGenre();
+			tableContent[i][2] = games.get(i).getDeveloper();
+			tableContent[i][3] = games.get(i).getPlatform();
+			tableContent[i][4] = games.get(i).getPrice();
+			tableContent[i][5] = games.get(i).getRating();
+		}
+		table.setModel(new DefaultTableModel(tableContent,
+				new String[] {
+					"Title", "Genre", "Developer", "Platform", "Price", "Rating"
+				}
+			));
+			
 		DefaultTableCellRenderer r=new DefaultTableCellRenderer();
-        r.setHorizontalAlignment(JLabel.CENTER);
-        table.setDefaultRenderer(Object.class,r);
+	    r.setHorizontalAlignment(JLabel.CENTER);
+	    table.setDefaultRenderer(Object.class,r);
+	    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+	    FitTableColumns(table);
 		
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(searchInput.getX(), searchInput.getY()+50, 
 				searchButtom.getWidth()-searchInput.getX()+searchButtom.getX(), 500);
 		frame.add(scrollPane);
-		
-		 
-		frame.setVisible(true);
 	
 	}
 	
@@ -553,8 +509,53 @@ public class GUIMockUp extends JPanel{
 		});
 		return true;
 	}
+	
+	// load games from database
+	private static void load() {
+		Scanner scn = null;
+		String line;
+		try {
+			scn = new Scanner(new File("database.txt"));
+			while(scn.hasNextLine()) {
+				line = scn.nextLine();
+				String [] parts= new String[6];
+				parts = line.split("/");
+				games.add(new Game(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5]));
+			}
+		}
+		catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
+		scn.close();
+	}
 
-	private void view() {
-		
+	// Fit the columns by the longest content
+	public void FitTableColumns(JTable myTable) {
+		JTableHeader header = myTable.getTableHeader();
+		int rowCount = myTable.getRowCount();
+		Enumeration columns = myTable.getColumnModel().getColumns();
+		while (columns.hasMoreElements())
+		{
+			TableColumn column = (TableColumn) columns.nextElement();
+			int col = header.getColumnModel().getColumnIndex(
+					column.getIdentifier());
+			int width = (int) myTable
+					.getTableHeader()
+					.getDefaultRenderer()
+					.getTableCellRendererComponent(myTable,
+							column.getIdentifier(), false, false, -1, col)
+					.getPreferredSize().getWidth();
+			for (int row = 0; row < rowCount; row++)
+			{
+				int preferedWidth = (int) myTable
+						.getCellRenderer(row, col)
+						.getTableCellRendererComponent(myTable,
+								myTable.getValueAt(row, col), false, false,
+								row, col).getPreferredSize().getWidth();
+				width = Math.max(width, preferedWidth);
+			}
+			header.setResizingColumn(column);
+			column.setWidth(width + myTable.getIntercellSpacing().width + 10);
+		}
 	}
 }
