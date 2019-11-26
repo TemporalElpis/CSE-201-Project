@@ -11,6 +11,15 @@ public class Game
 	{
 		
 	}
+	
+	public Game(String name, String genre, String developer, String platform, double price, String rating) {
+		this.name = name;
+		this.genre = genre;
+		this.developer = developer;
+		this.platform = platform;
+		this.price = price;
+		this.rating = rating;
+	}
 
 	public String getName() {
 		return name;
