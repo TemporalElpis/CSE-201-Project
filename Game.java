@@ -4,21 +4,20 @@ public class Game
 	String genre;
 	String developer;
 	String platform;
-	double price;
+	String price;
 	String rating;
 	
-	public Game()
-	{
-		
+	public Game() {
+		this("", "", "", "", "", "");
 	}
 	
-	public Game(String name, String genre, String developer, String platform, double price, String rating) {
-		this.name = name;
-		this.genre = genre;
-		this.developer = developer;
-		this.platform = platform;
-		this.price = price;
-		this.rating = rating;
+	public Game(String name, String genre, String developer, String platform, String price, String rating) {
+		setName(name);
+		setGenre(genre);
+		setDeveloper(developer);
+		setPlatform(platform);
+		setPrice(price);
+		setRating(rating);
 	}
 
 	public String getName() {
@@ -53,11 +52,11 @@ public class Game
 		this.platform = platform;
 	}
 
-	public double getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
