@@ -91,24 +91,6 @@ public class GUIMockUp extends JPanel{
 			}
 		});
 		
-		
-		Font font = new Font("Arial", Font.PLAIN, 36);
-		// create a search box
-		JTextField searchInput = new JTextField();
-		JButton searchButtom = new JButton("Search");
-		frame.add(searchInput);
-		frame.add(searchButtom);
-		searchInput.setLocation(230, frame.getHeight()/9);
-		searchInput.setSize(searchInput.getX()+ 350, 30);
-		searchButtom.setBounds(searchInput.getX() + searchInput.getWidth() + 10, searchInput.getY(), 100, 30);
-		searchButtom.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String s = searchInput.getText();
-				search(s);
-			}
-		});
-	
 		// create a filter panel
 		JPanel filterPane = new JPanel();
 		filterPane.setLayout(null);
@@ -124,7 +106,7 @@ public class GUIMockUp extends JPanel{
 		
 		JRadioButton nintendo3ds = new JRadioButton("Nintendo 3DS");
 		nintendo3ds.setBounds(byPlatform.getX()+10, byPlatform.getY()+40, 120, 30);
-		filterPane.add(nintendo3ds);
+		filterPane.add(nintendo3ds);		
 		
 		JRadioButton nintendoSwitch = new JRadioButton("Nintendo Switch");
 		nintendoSwitch.setBounds(nintendo3ds.getX(), nintendo3ds.getY()+30, 120, 30);
@@ -142,11 +124,45 @@ public class GUIMockUp extends JPanel{
 		xBox.setBounds(nintendo3ds.getX(), playS4.getY()+30, 120, 30);
 		filterPane.add(xBox);
 		
+		Font font = new Font("Arial", Font.PLAIN, 36);
+		// create a search box
+		JTextField searchInput = new JTextField();
+		JButton searchButtom = new JButton("Search");
+		frame.add(searchInput);
+		frame.add(searchButtom);
+		searchInput.setLocation(230, frame.getHeight()/9);
+		searchInput.setSize(searchInput.getX()+ 350, 30);
+		searchButtom.setBounds(searchInput.getX() + searchInput.getWidth() + 10, searchInput.getY(), 100, 30);
+		searchButtom.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String s = searchInput.getText();
+				search(s);
+				if(nintendo3ds.isSelected()) {
+					filter("3DS");
+				}
+				if(nintendoSwitch.isSelected()) {
+					filter("Switch");
+				}
+				if(playS3.isSelected()) {
+					filter("Playstation 3");
+				}
+				if(playS4.isSelected()) {
+					filter("Playstation 4");
+				}
+				if(xBox.isSelected()) {
+					filter("Xbox One");
+				}
+				setTable(games);
+				load();
+			}
+
+		});
 		
 		filterPane.setBounds(20, searchInput.getY(), searchInput.getX()-40, 550);
 		filterPane.setBorder(BorderFactory.createEtchedBorder());
 		frame.add(filterPane);
-
+		
 		//set table with an arraylist
 		setTable(games);
 		
@@ -170,6 +186,16 @@ public class GUIMockUp extends JPanel{
 	
 	
 	
+	protected void filter(String str) {
+					ArrayList<Game> gameList = new ArrayList<Game>();
+					for(int i=0;i<games.size();i++) {
+						if(games.get(i).getPlatform().contains(str)) {
+							gameList.add(games.get(i));
+						}
+					}			
+					games = gameList;
+	}
+
 	private void setTable(ArrayList<Game> games) {
 		table.setVisible(true);
 		table.setEnabled(false);
@@ -200,27 +226,13 @@ public class GUIMockUp extends JPanel{
 	protected void search(String s) {
 		//add all Game that meet the requirement in to gameList
 		ArrayList<Game> gameList = new ArrayList<Game>();
-		Scanner scn = null;
-		String line;
-		try {
-			scn = new Scanner(new File("database.txt"));
-			while(scn.hasNextLine()) {
-				line = scn.nextLine();
-				String [] parts= new String [6];
-				parts = line.split("/");
-				Game gameInFile = new Game(parts[0],parts[1],parts[2],parts[3],parts[4],parts[5]);				
-				if(gameInFile.getName().toLowerCase().contains(s.toLowerCase())) {
-					gameList.add(gameInFile);
-				}
+		for(int i=0;i<games.size();i++) {		
+			if(games.get(i).getName().toLowerCase().contains(s.toLowerCase())) {
+				gameList.add(games.get(i));
 			}
 		}
-		catch(Exception ex){
-			System.out.println("something wrong with search");;
-		}
-		scn.close();
-		
 		//give gameList to table
-		setTable(gameList);
+		games = gameList;
 	}
 
 	protected boolean creatAccount() {
@@ -562,6 +574,7 @@ public class GUIMockUp extends JPanel{
 	// load games from database
 	protected static void load() {
 		Scanner scn = null;
+		games.clear();
 		String line;
 		try {
 			scn = new Scanner(new File("database.txt"));
