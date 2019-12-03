@@ -103,26 +103,39 @@ public class GUIMockUp extends JPanel{
 		byPlatform.setBounds(filter.getX()+20, filter.getY()+80, 100, 30);
 		byPlatform.setFont(new Font("Arial", 1, 15));
 		filterPane.add(byPlatform);
-		
-		JRadioButton nintendo3ds = new JRadioButton("Nintendo 3DS");
-		nintendo3ds.setBounds(byPlatform.getX()+10, byPlatform.getY()+40, 120, 30);
-		filterPane.add(nintendo3ds);		
-		
+				
 		JRadioButton nintendoSwitch = new JRadioButton("Nintendo Switch");
-		nintendoSwitch.setBounds(nintendo3ds.getX(), nintendo3ds.getY()+30, 120, 30);
+		nintendoSwitch.setBounds(byPlatform.getX()+10, byPlatform.getY()+40, 120, 30);
 		filterPane.add(nintendoSwitch);
 		
-		JRadioButton playS3 = new JRadioButton("PlayStation 3");
-		playS3.setBounds(nintendo3ds.getX(), nintendoSwitch.getY()+30, 120, 30);
-		filterPane.add(playS3);
-		
 		JRadioButton playS4 = new JRadioButton("PlayStation 4");
-		playS4.setBounds(nintendo3ds.getX(), playS3.getY()+30, 120, 30);
+		playS4.setBounds(nintendoSwitch.getX(), nintendoSwitch.getY()+30, 120, 30);
 		filterPane.add(playS4);
 		
-		JRadioButton xBox = new JRadioButton("XBOX");
-		xBox.setBounds(nintendo3ds.getX(), playS4.getY()+30, 120, 30);
+		JRadioButton xBox = new JRadioButton("Xbox One");
+		xBox.setBounds(nintendoSwitch.getX(), playS4.getY()+30, 120, 30);
 		filterPane.add(xBox);
+		
+		JLabel byRating = new JLabel("Rating: ");
+		byRating.setBounds(filter.getX()+20, xBox.getY()+30, 100, 30);
+		byRating.setFont(new Font("Arial", 1, 15));
+		filterPane.add(byRating);
+				
+		JRadioButton E = new JRadioButton("E");
+		E.setBounds(byRating.getX()+10, byRating.getY()+40, 120, 30);
+		filterPane.add(E);
+		
+		JRadioButton e10 = new JRadioButton("E10+");
+		e10.setBounds(E.getX(), E.getY()+30, 120, 30);
+		filterPane.add(e10);
+		
+		JRadioButton t = new JRadioButton("T");
+		t.setBounds(E.getX(), e10.getY()+30, 120, 30);
+		filterPane.add(t);
+		
+		JRadioButton m = new JRadioButton("M");
+		m.setBounds(E.getX(), t.getY()+30, 120, 30);
+		filterPane.add(m);
 		
 		Font font = new Font("Arial", Font.PLAIN, 36);
 		// create a search box
@@ -137,21 +150,27 @@ public class GUIMockUp extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String s = searchInput.getText();
-				search(s);
-				if(nintendo3ds.isSelected()) {
-					filter("3DS");
-				}
+				search(s);				
 				if(nintendoSwitch.isSelected()) {
-					filter("Switch");
-				}
-				if(playS3.isSelected()) {
-					filter("Playstation 3");
-				}
+					filterPlatform("Switch");
+				}				
 				if(playS4.isSelected()) {
-					filter("Playstation 4");
+					filterPlatform("Playstation 4");
 				}
 				if(xBox.isSelected()) {
-					filter("Xbox One");
+					filterPlatform("Xbox One");
+				}
+				if(E.isSelected()) {
+					filterRating("E");
+				}				
+				if(e10.isSelected()) {
+					filterRating("E10+");
+				}
+				if(t.isSelected()) {
+					filterRating("T");
+				}
+				if(m.isSelected()) {
+					filterRating("M");
 				}
 				setTable(games);
 				load();
@@ -186,7 +205,7 @@ public class GUIMockUp extends JPanel{
 	
 	
 	
-	protected void filter(String str) {
+	protected void filterPlatform(String str) {
 					ArrayList<Game> gameList = new ArrayList<Game>();
 					for(int i=0;i<games.size();i++) {
 						if(games.get(i).getPlatform().contains(str)) {
@@ -195,6 +214,16 @@ public class GUIMockUp extends JPanel{
 					}			
 					games = gameList;
 	}
+	
+	protected void filterRating(String str) {
+		ArrayList<Game> gameList = new ArrayList<Game>();
+		for(int i=0;i<games.size();i++) {
+			if(games.get(i).getRating().equals(str)) {
+				gameList.add(games.get(i));
+			}
+		}			
+		games = gameList;
+}
 
 	private void setTable(ArrayList<Game> games) {
 		table.setVisible(true);
