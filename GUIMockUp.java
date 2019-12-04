@@ -26,6 +26,8 @@ public class GUIMockUp extends JPanel{
 	protected static ArrayList<Game> games;
 	private JButton FAQsButtom;
 	private JLabel welcomemsg;
+	private JButton addNewGame;
+	private JButton accountInformation;
 	
 	public GUIMockUp() {
 		frame = new JFrame();
@@ -35,6 +37,8 @@ public class GUIMockUp extends JPanel{
 		table = new JTable();
 		games = new ArrayList<Game>();
 		FAQsButtom = new JButton();
+		addNewGame = new JButton();
+		accountInformation = new JButton();
 		load();
 		init();
 	}
@@ -56,7 +60,7 @@ public class GUIMockUp extends JPanel{
 		// sign up button
 		signUpButtom.setText("Sign Up");
 		frame.add(signUpButtom);
-		signUpButtom.setBounds(frame.getWidth()-240, 20, 100, 30);
+		signUpButtom.setBounds(780, 20, 100, 30);
 		signUpButtom.addActionListener(new ActionListener() {
 			
 			@Override
@@ -74,22 +78,6 @@ public class GUIMockUp extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Login();
-			}
-		});
-		
-		// log out button
-		logOutButtom.setText("Log Out");
-		logOutButtom.setVisible(false);
-		frame.add(logOutButtom);
-		logOutButtom.setBounds(frame.getWidth()-130, 20, 100, 30);
-		logOutButtom.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				signUpButtom.setVisible(true);
-				logInButtom.setVisible(true);
-				logOutButtom.setVisible(false);
-				welcomemsg.setVisible(false);
 			}
 		});
 		
@@ -202,6 +190,29 @@ public class GUIMockUp extends JPanel{
 				showfaq();
 			}
 		});
+		
+		
+		// after login an account!
+		// log out button
+		logOutButtom.setText("Log Out");
+		logOutButtom.setVisible(false);
+		frame.add(logOutButtom);
+		logOutButtom.setBounds(frame.getWidth()-130, 20, 100, 30);
+		logOutButtom.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				signUpButtom.setVisible(true);
+				logInButtom.setVisible(true);
+				logOutButtom.setVisible(false);
+				welcomemsg.setVisible(false);
+			}
+		});
+//////////////////////////		
+		//add new Game
+		addNewGame.setText("Upload Game");
+		addNewGame.setVisible(false);
+		frame.add(addNewGame);
+		addNewGame.setBounds(frame.getWidth()-130, 20, 100, 30);
 	}
 	
 	
@@ -215,7 +226,7 @@ public class GUIMockUp extends JPanel{
 		FAQFrame.setLocationRelativeTo(null);
 		FAQFrame.setLayout(null);
 		
-		Font title = new Font("Impact", Font.PLAIN, 36);
+		Font title = new Font("Impact", Font.PLAIN, 48);
 		JLabel titleLable = new JLabel("FAQ");
 		titleLable.setFont(title);
 		FAQFrame.add(titleLable);
@@ -224,8 +235,8 @@ public class GUIMockUp extends JPanel{
 		Font text = new Font("Arial", Font.PLAIN, 24);
 		JLabel question1 = new JLabel("<html>Q : How to search the result I want?<br>"
 											+ "A : It is very simple~ <br>"
-											+ "First, type in the keyword you want to search <br>"
-											+ "Second, click the search button. &nbsp <br>"
+											+ "&nbsp&nbsp&nbsp&nbsp First, type in the keyword you want to search <br>"
+											+ "&nbsp&nbsp&nbsp&nbsp Second, click the search button. &nbsp <br>"
 											+ "<br>"
 											+ "Q : How to filte my result?<br>"
 											+ "A : You can just click what you want to filte and then click search<br>"
@@ -602,7 +613,7 @@ public class GUIMockUp extends JPanel{
 							logInButtom.setVisible(false);
 							logOutButtom.setVisible(true);
 							welcomemsg = new JLabel("Welcome " + userName + " !");
-							welcomemsg.setBounds(signUpButtom.getX(), signUpButtom.getY(), signUpButtom.getWidth(), signUpButtom.getHeight());
+							welcomemsg.setBounds(signUpButtom.getX(), signUpButtom.getY(), signUpButtom.getWidth()+30, signUpButtom.getHeight());
 							frame.add(welcomemsg);
 						}
 					});
