@@ -197,14 +197,48 @@ public class GUIMockUp extends JPanel{
 		FAQsButtom.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				showfaq();
 			}
 		});
 	}
 	
 	
 	
+	protected void showfaq() {
+		JFrame FAQFrame = new JFrame("FAQs"); 
+		FAQFrame.setVisible(true);
+		FAQFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		FAQFrame.setAlwaysOnTop(true);
+		FAQFrame.setSize(800 , 600);
+		FAQFrame.setLocationRelativeTo(null);
+		FAQFrame.setLayout(null);
+		
+		Font title = new Font("Impact", Font.PLAIN, 36);
+		JLabel titleLable = new JLabel("FAQ");
+		titleLable.setFont(title);
+		FAQFrame.add(titleLable);
+		titleLable.setBounds(FAQFrame.getWidth()/2-40, 0, 100, 50);
+		
+		Font text = new Font("Arial", Font.PLAIN, 24);
+		JLabel question1 = new JLabel("<html>Q : How to search the result I want?<br>"
+											+ "A : It is very simple~ <br>"
+											+ "First, type in the keyword you want to search <br>"
+											+ "Second, click the search button. &nbsp <br>"
+											+ "<br>"
+											+ "Q : How to filte my result?<br>"
+											+ "A : You can just click what you want to filte and then click search<br>"
+											+ "<br>"
+											+ "Q : How can I sign up to get my personal account?<br>"
+											+ "A : First, click Sign up botton on the top corner<br>"
+											+ "&nbsp&nbsp&nbsp&nbsp Second, type in your prefer username and password<br>"
+											+ "&nbsp&nbsp&nbsp&nbsp Finally, click Sign up! <br>" 
+				+"</html>");
+		question1.setFont(text);
+		FAQFrame.add(question1);
+		question1.setBounds(FAQFrame.getWidth()/15, 10, FAQFrame.getWidth(), FAQFrame.getHeight()-50);
+		
+	}
+
 	protected void filterPlatform(String str) {
 					ArrayList<Game> gameList = new ArrayList<Game>();
 					for(int i=0;i<games.size();i++) {
@@ -223,7 +257,7 @@ public class GUIMockUp extends JPanel{
 			}
 		}			
 		games = gameList;
-}
+	}
 
 	private void setTable(ArrayList<Game> games) {
 		table.setVisible(true);
@@ -317,7 +351,7 @@ public class GUIMockUp extends JPanel{
 				boolean exist = checkExist(userName);
 				
 				//password is same && account does not exist
-				if(password1.equals(password2) && !exist) {
+				if(password1.equals(password2) && !exist && userName.length()!=0 && password1.length()!=0) {
 					Account acc = new Account(userName,password1);
 					boolean status = creatAccount(acc);
 					if(status) {
@@ -356,7 +390,7 @@ public class GUIMockUp extends JPanel{
 				}
 				
 				//password not match
-				else if(!exist){
+				else if(!exist && userName.length()!=0 && password1.length()!=0){
 					//print fail page
 					JFrame failFrame = new JFrame("Account Not Created"); 
 					failFrame.setVisible(true);
@@ -384,6 +418,35 @@ public class GUIMockUp extends JPanel{
 					});
 				}
 			
+				//empty password or username
+				else if(userName.length()==0 || password1.length()==0) {
+					//print fail page
+					JFrame failFrame = new JFrame("Account Not Created"); 
+					failFrame.setVisible(true);
+					failFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+					failFrame.setAlwaysOnTop(true);
+					failFrame.setSize(512 , 200);
+					failFrame.setLocationRelativeTo(null);
+					failFrame.setLayout(null);
+					
+					//fail message Label
+					JLabel failtext = new JLabel("Your username or password can not be empty");
+					failFrame.add(failtext);
+					failtext.setBounds(120, 20, 300, 50);
+					
+					//done button
+					JButton done = new JButton("done");
+					failFrame.add(done);
+					done.setBounds(200, 110, 100, 30);
+					done.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							failFrame.dispose();
+						}
+					});
+				}
+				
 				//user exist
 				else {
 					//print fail page
