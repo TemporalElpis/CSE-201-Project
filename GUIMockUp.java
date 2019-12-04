@@ -25,6 +25,7 @@ public class GUIMockUp extends JPanel{
 	private JTable table;
 	protected static ArrayList<Game> games;
 	private JButton FAQsButtom;
+	private JLabel welcomemsg;
 	
 	public GUIMockUp() {
 		frame = new JFrame();
@@ -88,6 +89,7 @@ public class GUIMockUp extends JPanel{
 				signUpButtom.setVisible(true);
 				logInButtom.setVisible(true);
 				logOutButtom.setVisible(false);
+				welcomemsg.setVisible(false);
 			}
 		});
 		
@@ -599,9 +601,9 @@ public class GUIMockUp extends JPanel{
 							signUpButtom.setVisible(false);
 							logInButtom.setVisible(false);
 							logOutButtom.setVisible(true);
-							JLabel msg = new JLabel("Welcome " + userName + " !");
-							msg.setBounds(signUpButtom.getX(), signUpButtom.getY(), signUpButtom.getWidth(), signUpButtom.getHeight());
-							frame.add(msg);
+							welcomemsg = new JLabel("Welcome " + userName + " !");
+							welcomemsg.setBounds(signUpButtom.getX(), signUpButtom.getY(), signUpButtom.getWidth(), signUpButtom.getHeight());
+							frame.add(welcomemsg);
 						}
 					});
 				}
