@@ -26,8 +26,12 @@ public class GUIMockUp extends JPanel{
 	protected static ArrayList<Game> games;
 	private JButton FAQsButtom;
 	private JLabel welcomemsg;
-	private JButton addNewGame;
-	private JButton accountInformation;
+//	private JButton addNewGame;
+//	private JButton accountInformation;
+	private JRadioButton e10;
+	private JRadioButton t;
+	private JRadioButton m;
+	private JRadioButton E;
 	
 	public GUIMockUp() {
 		frame = new JFrame();
@@ -37,8 +41,8 @@ public class GUIMockUp extends JPanel{
 		table = new JTable();
 		games = new ArrayList<Game>();
 		FAQsButtom = new JButton();
-		addNewGame = new JButton();
-		accountInformation = new JButton();
+//		addNewGame = new JButton();
+//		accountInformation = new JButton();
 		load();
 		init();
 	}
@@ -111,21 +115,49 @@ public class GUIMockUp extends JPanel{
 		byRating.setFont(new Font("Arial", 1, 15));
 		filterPane.add(byRating);
 				
-		JRadioButton E = new JRadioButton("E");
+		E = new JRadioButton("E");
 		E.setBounds(byRating.getX()+10, byRating.getY()+40, 120, 30);
 		filterPane.add(E);
+		E.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				deselectOthers(E);		
+			}
+		});
 		
-		JRadioButton e10 = new JRadioButton("E10+");
+		e10 = new JRadioButton("E10+");
 		e10.setBounds(E.getX(), E.getY()+30, 120, 30);
 		filterPane.add(e10);
+		e10.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				deselectOthers(e10);		
+			}
+		});
 		
-		JRadioButton t = new JRadioButton("T");
+		t = new JRadioButton("T");
 		t.setBounds(E.getX(), e10.getY()+30, 120, 30);
 		filterPane.add(t);
+		t.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				deselectOthers(t);		
+			}
+		});
 		
-		JRadioButton m = new JRadioButton("M");
+		m = new JRadioButton("M");
 		m.setBounds(E.getX(), t.getY()+30, 120, 30);
 		filterPane.add(m);
+		m.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				deselectOthers(m);		
+			}
+		});
 		
 		Font font = new Font("Arial", Font.PLAIN, 36);
 		// create a search box
@@ -209,14 +241,23 @@ public class GUIMockUp extends JPanel{
 		});
 //////////////////////////		
 		//add new Game
-		addNewGame.setText("Upload Game");
-		addNewGame.setVisible(false);
-		frame.add(addNewGame);
-		addNewGame.setBounds(frame.getWidth()-130, 20, 100, 30);
+//		addNewGame.setText("Upload Game");
+//		addNewGame.setVisible(false);
+//		frame.add(addNewGame);
+//		addNewGame.setBounds(frame.getWidth()-130, 20, 100, 30);
 	}
 	
 	
 	
+	protected void deselectOthers(JRadioButton e) {
+		E.setSelected(false);
+		e10.setSelected(false);
+		t.setSelected(false);
+		m.setSelected(false);
+		
+		e.setSelected(true);
+	}
+
 	protected void showfaq() {
 		JFrame FAQFrame = new JFrame("FAQs"); 
 		FAQFrame.setVisible(true);
