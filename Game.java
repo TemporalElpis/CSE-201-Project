@@ -68,5 +68,8 @@ public class Game
 		this.rating = rating;
 	}
 	
-	
+	//toString
+	public String toString() {
+		return name + "/" + genre + "/" + developer + "/" + platform + "/" + price + "/" + rating;
+	}
 }
