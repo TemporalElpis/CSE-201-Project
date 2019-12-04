@@ -250,12 +250,18 @@ public class GUIMockUp extends JPanel{
 	
 	
 	protected void deselectOthers(JRadioButton e) {
-		E.setSelected(false);
-		e10.setSelected(false);
-		t.setSelected(false);
-		m.setSelected(false);
-		
-		e.setSelected(true);
+		if(e != E) {
+			E.setSelected(false);
+		}
+		if(e != e10) {
+			e10.setSelected(false);
+		}
+		if(e != t) {
+			t.setSelected(false);
+		}
+		if(e != m) {
+			m.setSelected(false);
+		}
 	}
 
 	protected void showfaq() {
