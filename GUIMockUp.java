@@ -94,12 +94,12 @@ public class GUIMockUp extends JPanel{
 		filterPane.add(filter);
 		
 		JLabel byPlatform = new JLabel("Platform: ");
-		byPlatform.setBounds(filter.getX()+20, filter.getY()+80, 100, 30);
+		byPlatform.setBounds(filter.getX()+20, filter.getY()+40, 100, 30);
 		byPlatform.setFont(new Font("Arial", 1, 15));
 		filterPane.add(byPlatform);
 				
 		JRadioButton nintendoSwitch = new JRadioButton("Nintendo Switch");
-		nintendoSwitch.setBounds(byPlatform.getX()+10, byPlatform.getY()+40, 120, 30);
+		nintendoSwitch.setBounds(byPlatform.getX()+10, byPlatform.getY()+30, 120, 30);
 		filterPane.add(nintendoSwitch);
 		
 		JRadioButton playS4 = new JRadioButton("PlayStation 4");
@@ -110,13 +110,38 @@ public class GUIMockUp extends JPanel{
 		xBox.setBounds(nintendoSwitch.getX(), playS4.getY()+30, 120, 30);
 		filterPane.add(xBox);
 		
+		JLabel byGenre = new JLabel("Genre: ");
+		byGenre.setBounds(filter.getX()+20, xBox.getY()+40, 100, 30);
+		byGenre.setFont(new Font("Arial", 1, 15));
+		filterPane.add(byGenre);
+				
+		JRadioButton puzzle = new JRadioButton("Puzzle");
+		puzzle.setBounds(byGenre.getX()+10, byGenre.getY()+30, 120, 30);
+		filterPane.add(puzzle);
+		
+		JRadioButton rpg = new JRadioButton("RPG");
+		rpg.setBounds(puzzle.getX(), puzzle.getY()+30, 120, 30);
+		filterPane.add(rpg);
+		
+		JRadioButton platformer = new JRadioButton("Platformer");
+		platformer.setBounds(puzzle.getX(), rpg.getY()+30, 120, 30);
+		filterPane.add(platformer);
+		
+		JRadioButton adventure = new JRadioButton("Adventure");
+		adventure.setBounds(puzzle.getX(), platformer.getY()+30, 120, 30);
+		filterPane.add(adventure);
+		
+		JRadioButton firstPerson = new JRadioButton("First-Person");
+		firstPerson.setBounds(puzzle.getX(), adventure.getY()+30, 120, 30);
+		filterPane.add(firstPerson);
+		
 		JLabel byRating = new JLabel("Rating: ");
-		byRating.setBounds(filter.getX()+20, xBox.getY()+30, 100, 30);
+		byRating.setBounds(filter.getX()+20, firstPerson.getY()+40, 100, 30);
 		byRating.setFont(new Font("Arial", 1, 15));
 		filterPane.add(byRating);
 				
 		E = new JRadioButton("E");
-		E.setBounds(byRating.getX()+10, byRating.getY()+40, 120, 30);
+		E.setBounds(byRating.getX()+10, byRating.getY()+30, 120, 30);
 		filterPane.add(E);
 		E.addActionListener(new ActionListener() {
 			
@@ -194,6 +219,21 @@ public class GUIMockUp extends JPanel{
 				if(m.isSelected()) {
 					filterRating("M");
 				}
+				if(puzzle.isSelected()) {
+					filterGenre("Puzzle");
+				}				
+				if(rpg.isSelected()) {
+					filterGenre("RPG");
+				}
+				if(platformer.isSelected()) {
+					filterGenre("Platformer");
+				}
+				if(adventure.isSelected()) {
+					filterGenre("Adventure");
+				}				
+				if(firstPerson.isSelected()) {
+					filterGenre("First-Person");
+				}			
 				setTable(games);
 				load();
 			}
@@ -638,7 +678,7 @@ public class GUIMockUp extends JPanel{
 		FAQFrame.setVisible(true);
 		FAQFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		FAQFrame.setAlwaysOnTop(true);
-		FAQFrame.setSize(800 , 600);
+		FAQFrame.setSize(800 , 800);
 		FAQFrame.setLocationRelativeTo(null);
 		FAQFrame.setLayout(null);
 		
@@ -649,18 +689,29 @@ public class GUIMockUp extends JPanel{
 		titleLable.setBounds(FAQFrame.getWidth()/2-40, 0, 100, 50);
 		
 		Font text = new Font("Arial", Font.PLAIN, 24);
-		JLabel question1 = new JLabel("<html>Q : How to search the result I want?<br>"
-											+ "A : It is very simple~ <br>"
-											+ "&nbsp&nbsp&nbsp&nbsp First, type in the keyword you want to search <br>"
-											+ "&nbsp&nbsp&nbsp&nbsp Second, click the search button. &nbsp <br>"
+		JLabel question1 = new JLabel("<html>Q : How do I perform a search?<br>"
+											+ "A : Just type the title of the game you want to find into the  <br>"
+											+ "&nbsp&nbsp&nbsp&nbsp search bar and click the search button. <br>"
 											+ "<br>"
-											+ "Q : How to filte my result?<br>"
-											+ "A : You can just click what you want to filte and then click search<br>"
+											+ "Q : How can I filter my result?<br>"
+											+ "A : Select as many filters as you want to use and then click search.<br>"
 											+ "<br>"
-											+ "Q : How can I sign up to get my personal account?<br>"
-											+ "A : First, click Sign up botton on the top corner<br>"
-											+ "&nbsp&nbsp&nbsp&nbsp Second, type in your prefer username and password<br>"
-											+ "&nbsp&nbsp&nbsp&nbsp Finally, click Sign up! <br>" 
+											+ "Q : How can I reset the catalog?<br>"
+											+ "A : Unselect all filters and empty the search bar, then click search.<br>"
+											+ "<br>"
+											+ "Q : Why are there no results?<br>"
+											+ "A : Your search may have been to specific resulting in no hits.<br>"
+											+ "&nbsp&nbsp&nbsp&nbsp also check that you did not use multiple filters<br>"
+											+ "&nbsp&nbsp&nbsp&nbsp in the same category that don't work together.<br>"
+											+ "<br>"
+											+ "Q : How can I create and sign in to my personal account?<br>"
+											+ "A : First, click the sign up botton on the top corner and<br>"
+											+ "&nbsp&nbsp&nbsp&nbsp Once you have an account made click log in<br>"
+											+ "&nbsp&nbsp&nbsp&nbsp and fill out your account information.<br>"
+											+ "<br>"
+											+ "Q : Why should I make a personal account?<br>"
+											+ "A : Logged in users are able to fill out a form to add <br>"
+											+ "&nbsp&nbsp&nbsp&nbsp games to the catalog.<br>"
 				+"</html>");
 		question1.setFont(text);
 		FAQFrame.add(question1);
@@ -677,6 +728,16 @@ public class GUIMockUp extends JPanel{
 					}			
 					games = gameList;
 	}
+	
+	protected void filterGenre(String str) {
+		ArrayList<Game> gameList = new ArrayList<Game>();
+		for(int i=0;i<games.size();i++) {
+			if(games.get(i).getGenre().contains(str)) {
+				gameList.add(games.get(i));
+			}
+		}			
+		games = gameList;
+}
 	
 	protected void filterRating(String str) {
 		ArrayList<Game> gameList = new ArrayList<Game>();
